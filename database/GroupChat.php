@@ -110,6 +110,16 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
 
         }
+        public function addMember($user_id){
+            $query="
+            INSERT INTO users_group(user_id,group_id)
+            VALUES (:user_id,:group_id)
+            ";
+            $statement = $this->connect->prepare($query);
+            $statement->bindParam(':user_id',$user_id);
+            $statement->bindParam(':group_id',$this->group_id);
+            $statement->execute();
+        }
 
 
 

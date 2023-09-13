@@ -395,7 +395,7 @@ $(document).ready(function() {
 									<strong>` + user_name + `</strong>
 								</span>
 								<span class="mt-2 float-right">
-									<i class="fa fa-plus" aria-hidden="true" data-user_id="` + user_id + `"></i>
+									<i class="fa fa-plus" aria-hidden="true" data-userid="` + user_id + `"></i>
 								</span>
 							</a>
 							`;
@@ -404,6 +404,25 @@ $(document).ready(function() {
                         }
                         $(".member-list").show();
                         $(".user-list").html(html_data);
+                        $(document).ready(function(){
+                            $(".fa-plus").click(function(){
+                                var add_user_id = $(this).data('userid');
+                                console.log(group_id);
+                                $.ajax({
+                                    url:"action.php",
+                                    type:"POST",
+                                    data:{
+                                        action: 'add_user',
+                                        group_id:group_id,
+                                        add_user_id:add_user_id
+                                    },
+                                    dataType:"JSON",
+                                    success:function(data){
+                                        
+                                    }
+                                })
+                            })
+                        })
                     }
                 }
             })
@@ -434,7 +453,7 @@ $(document).ready(function() {
 									<strong>` + user_name + `</strong>
 								</span>
 								<span class="mt-2 float-right">
-									<i class="fa fa-trash text-danger" data-user_id="` + user_id + `"></i>
+									<i class="fa fa-trash text-danger" data-userid="` + user_id + `"></i>
 								</span>
 							</a>
 							`;

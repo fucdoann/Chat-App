@@ -59,7 +59,7 @@ if(isset($_POST["action"]) && $_POST["action"] == 'fetch_group')
 
 	
 }
-if(isset($_POST["action"]) && $_POST["action"] == 'add_member')
+if(isset($_POST["action"]) && $_POST["action"] == 'delete_member')
 {
 	require 'database/GroupChat.php';
 	$group_chat = new groupChat;
@@ -67,13 +67,20 @@ if(isset($_POST["action"]) && $_POST["action"] == 'add_member')
 	echo json_encode($group_chat->getAllUserByGroupId());
 
 }
-if(isset($_POST["action"]) && $_POST["action"] == 'delete_member')
+if(isset($_POST["action"]) && $_POST["action"] == 'add_member')
 {
 	require 'database/GroupChat.php';
 	$group_chat = new groupChat;
 	$group_chat->setGroupId($_POST['group_id']);
 	echo json_encode($group_chat->getAllNotUserByGroupId());
 
+}
+if(isset($_POST["action"]) && $_POST["action"] == 'add_user')
+{
+	require 'database/GroupChat.php';
+	$group_chat = new groupChat;
+	$group_chat->setGroupId($_POST['group_id']);
+	$group_chat->addMember($_POST['add_user_id']);
 }
 
 ?>
