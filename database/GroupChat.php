@@ -120,6 +120,16 @@
             $statement->bindParam(':group_id',$this->group_id);
             $statement->execute();
         }
+        public function deleteMember($user_id){
+            $query="
+            DELETE FROM users_group
+            WHERE user_id = :user_id AND group_id = :group_id
+            ";
+            $statement = $this->connect->prepare($query);
+            $statement->bindParam(':user_id',$user_id);
+            $statement->bindParam(':group_id',$this->group_id);
+            $statement->execute();
+        }
 
 
 

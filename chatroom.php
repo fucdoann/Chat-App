@@ -106,13 +106,13 @@ $user_data = $user_object->get_user_all_data();
 						if(isset($_SESSION['user_data'][$chat['userid']]))
 						{
 							$from = 'Me';
-							$row_class = 'row justify-content-start';
-							$background_class = 'text-dark alert-light';
+							$row_class = 'row justify-content-end';
+							$background_class = 'alert-primary';
 						}
 						else
 						{
 							$from = $chat['user_name'];
-							$row_class = 'row justify-content-end';
+							$row_class = 'row justify-content-start';
 							$background_class = 'alert-success';
 						}
 
@@ -226,12 +226,12 @@ $user_data = $user_object->get_user_all_data();
 
 		    if(data.from == 'Me')
 		    {
-		    	row_class = 'row justify-content-start';
-		    	background_class = 'text-dark alert-light';
+		    	row_class = 'row justify-content-end';
+		    	background_class = 'alert-primary';
 		    }
 		    else
 		    {
-		    	row_class = 'row justify-content-end';
+		    	row_class = 'row justify-content-start';
 		    	background_class = 'alert-success';
 		    }
 

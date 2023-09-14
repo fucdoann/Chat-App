@@ -169,7 +169,10 @@ class PrivateChat
 		$query = "
 		SELECT * FROM chat_message	
 		INNER JOIN message_group ON chat_message.chat_message_id = message_group.message_id
+		INNER JOIN chat_user_table ON chat_message.from_user_id = chat_user_table.user_id
 		WHERE message_group.group_id = :group_id
+		ORDER BY timestamp ASC
+		
 		";
 		$statement = $this->connect->prepare($query);
 		$statement->bindParam(':group_id',$group_id);

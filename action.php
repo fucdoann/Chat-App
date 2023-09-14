@@ -82,5 +82,11 @@ if(isset($_POST["action"]) && $_POST["action"] == 'add_user')
 	$group_chat->setGroupId($_POST['group_id']);
 	$group_chat->addMember($_POST['add_user_id']);
 }
-
+if(isset($_POST["action"]) && $_POST["action"] == 'delete_user')
+{
+	require 'database/GroupChat.php';
+	$group_chat = new groupChat;
+	$group_chat->setGroupId($_POST['group_id']);
+	$group_chat->deleteMember($_POST['delete_user_id']);
+}
 ?>

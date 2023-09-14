@@ -207,14 +207,14 @@ $(document).ready(function() {
             var background_class = '';
 
             if (data.from == 'Me') {
-                row_class = 'row justify-content-start';
+                row_class = 'row justify-content-end';
                 background_class = 'alert-primary';
             } else {
-                row_class = 'row justify-content-end';
+                row_class = 'row justify-content-start';
                 background_class = 'alert-success';
             }
 
-            if (receiver_userid == data.userId || data.from == 'Me') {
+            if (data.receiver_groupid == receiver_groupid) {
                 if ($('#is_active_chat').val() == 'Yes') {
                     var html_data = `
 						<div class="` + row_class + `">
@@ -263,7 +263,8 @@ $(document).ready(function() {
 							<b><span class="text-danger" id="chat_user_name">` + group_name + `</span></b>
 						</div>
 						<div class="col col-sm-6 text-right">
-							<a href="chatroom.php" class="btn btn-success btn-sm">Group Chat</a>&nbsp;&nbsp;&nbsp;
+							<a href="chatroom.php" class="btn btn-info btn-sm">Chat Room</a>&nbsp;&nbsp;&nbsp;
+							<a href="privatechat.php" class="btn btn-info btn-sm">Private Chat</a>&nbsp;&nbsp;&nbsp;
 							<button type="button" class="close" id="close_chat_area" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -333,17 +334,17 @@ $(document).ready(function() {
                         var user_name = '';
                         if (data[count].from_user_id == from_user_id) {
 
-                            row_class = 'row justify-content-start';
+                            row_class = 'row justify-content-end';
 
                             background_class = 'alert-primary';
 
                             user_name = 'Me';
                         } else {
-                            row_class = 'row justify-content-end';
+                            row_class = 'row justify-content-start';
 
                             background_class = 'alert-success';
 
-                            user_name = data[count].from_user_name;
+                            user_name = data[count].user_name;
                         }
 
                         html_data += `
@@ -388,37 +389,43 @@ $(document).ready(function() {
                             var user_name = data[count].user_name;
                             var user_id = data[count].user_id;
                             var user_profile = data[count].user_profile;
-                            html_data += `
-							<a class="list-group-item">
-                                <img src="` + user_profile + `" class="img-fluid rounded-circle img-thumbnail" width="50" alt=""/>
-								<span class="ml-1">
-									<strong>` + user_name + `</strong>
-								</span>
-								<span class="mt-2 float-right">
-									<i class="fa fa-plus" aria-hidden="true" data-userid="` + user_id + `"></i>
-								</span>
-							</a>
-							`;
-
+                            if (user_id != from_user_id) {
+                                html_data += `
+                                <a class="list-group-item">
+                                    <img src="` + user_profile + `" class="img-fluid rounded-circle img-thumbnail" width="50" alt=""/>
+                                    <span class="ml-1">
+                                        <strong>` + user_name + `</strong>
+                                    </span>
+                                    <span class="mt-2 float-right">
+                                        <i class="fa fa-plus" aria-hidden="true" data-userid="` + user_id + `"></i>
+                                    </span>
+                                </a>
+                                `;
+                            }
 
                         }
                         $(".member-list").show();
                         $(".user-list").html(html_data);
-                        $(document).ready(function(){
-                            $(".fa-plus").click(function(){
-                                var add_user_id = $(this).data('userid');
+                        $(document).ready(function() {
+                            $(".fa-plus").click(function() {
+                                var add_user_id = $(this).data(
+                                    'userid');
+                                $(this).parent().parent().hide();
                                 console.log(group_id);
                                 $.ajax({
-                                    url:"action.php",
-                                    type:"POST",
-                                    data:{
+                                    url: "action.php",
+                                    type: "POST",
+                                    data: {
                                         action: 'add_user',
-                                        group_id:group_id,
-                                        add_user_id:add_user_id
+                                        group_id: group_id,
+                                        add_user_id: add_user_id
                                     },
-                                    dataType:"JSON",
-                                    success:function(data){
-                                        
+                                    dataType: "JSON",
+                                    success: function(
+                                    data) {
+                                        console.log(
+                                            add_user_id
+                                            );
                                     }
                                 })
                             })
@@ -446,22 +453,45 @@ $(document).ready(function() {
                             user_name = data[count].user_name;
                             user_id = data[count].user_id;
                             var user_profile = data[count].user_profile;
-                            html_data += `
-							<a class="list-group-item">
-                                <img src="` + user_profile + `" class="img-fluid rounded-circle img-thumbnail" width="50" alt=""/>
-								<span class="ml-1">
-									<strong>` + user_name + `</strong>
-								</span>
-								<span class="mt-2 float-right">
-									<i class="fa fa-trash text-danger" data-userid="` + user_id + `"></i>
-								</span>
-							</a>
-							`;
+                            if (user_id != from_user_id) {
 
+                                html_data += `
+                                <a class="list-group-item">
+                                    <img src="` + user_profile + `" class="img-fluid rounded-circle img-thumbnail" width="50" alt=""/>
+                                    <span class="ml-1">
+                                        <strong>` + user_name + `</strong>
+                                    </span>
+                                    <span class="mt-2 float-right">
+                                        <i class="fa fa-trash text-danger" data-userid="` + user_id + `"></i>
+                                    </span>
+                                </a>
+                                `;
+                            }
 
                         }
                         $(".member-list").show();
                         $(".user-list").html(html_data);
+                        $(document).ready(function() {
+                            $(".fa-trash").click(function() {
+                                var delete_user_id = $(this).data(
+                                    'userid');
+                                $(this).parent().parent().hide();
+                                $.ajax({
+                                    url: "action.php",
+                                    type: "POST",
+                                    data: {
+                                        action: 'delete_user',
+                                        group_id: group_id,
+                                        delete_user_id: delete_user_id
+                                    },
+                                    dataType: "JSON",
+                                    success: function() {
+                                        console.log(
+                                            "hello");
+                                    }
+                                })
+                            })
+                        })
                     }
                 }
             })
@@ -524,9 +554,9 @@ $(document).ready(function() {
         })
 
     });
-	$('.fa').click(function(){
-		var user_id = $(this).data
-	})
+    $('.fa').click(function() {
+        var user_id = $(this).data
+    })
     $('#createGroup').click(function() {
         $('#groupName').show();
     });

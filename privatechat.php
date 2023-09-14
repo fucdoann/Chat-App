@@ -200,12 +200,12 @@ require('database/ChatRooms.php');
 
 				if(data.from == 'Me')
 				{
-					row_class = 'row justify-content-start';
+					row_class = 'row justify-content-end';
 					background_class = 'alert-primary';
 				}
 				else
 				{
-					row_class = 'row justify-content-end';
+					row_class = 'row justify-content-start';
 					background_class = 'alert-success';
 				}
 
@@ -264,7 +264,8 @@ require('database/ChatRooms.php');
 							<b>Chat with <span class="text-danger" id="chat_user_name">`+user_name+`</span></b>
 						</div>
 						<div class="col col-sm-6 text-right">
-							<a href="chatroom.php" class="btn btn-success btn-sm">Group Chat</a>&nbsp;&nbsp;&nbsp;
+							<a href="chatroom.php" class="btn btn-info btn-sm">Chat Room</a>&nbsp;&nbsp;&nbsp;
+							<a href="groupchat.php" class="btn btn-info btn-sm">Chat Group</a>&nbsp;&nbsp;&nbsp;
 							<button type="button" class="close" id="close_chat_area" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -328,7 +329,7 @@ require('database/ChatRooms.php');
 
 							if(data[count].from_user_id == from_user_id)
 							{
-								row_class = 'row justify-content-start';
+								row_class = 'row justify-content-end';
 
 								background_class = 'alert-primary';
 
@@ -336,7 +337,7 @@ require('database/ChatRooms.php');
 							}
 							else
 							{
-								row_class = 'row justify-content-end';
+								row_class = 'row justify-content-start';
 
 								background_class = 'alert-success';
 
